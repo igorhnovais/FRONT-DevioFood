@@ -14,7 +14,7 @@ export default function Header() {
       </div>
       <div className="">
         <button type="button" className="ml-1">
-          <Link href="/orders">Pedidos</Link>
+          <Link href="/">Pedidos</Link>
         </button>
         <button type="button" className="ml-1">
           <Link href="/kitchen">Cozinha</Link>
