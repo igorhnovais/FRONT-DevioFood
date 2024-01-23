@@ -5,21 +5,31 @@ import axios from 'axios';
 
 import Header from '@/components/header/header';
 import OrderProgress from '@/components/orderProgress/orderProgress';
+import OrderReady from '@/components/orderReady/orderReady';
 
 export default function Kitchen() {
   const [orders, setOrders] = useState([]);
+  const [ready, setReady] = useState([]);
+  const [loading, setLoading] = useState([]);
 
   useEffect(() => {
-    const promise = axios.get('http://localhost:5000/orders/finish');
+    const promisePreparing = axios.get('http://localhost:5000/orders/finish');
     // const promise = axios.get(`${process.env.REACT_APP_API_BASE_URL}/products`);
-    promise.then(resp => {
+    promisePreparing.then(resp => {
       setOrders(resp.data);
-      console.log('oi', resp.data);
     });
-    promise.catch(err => {
+    promisePreparing.catch(err => {
       console.log(err.response.data.message);
     });
-  }, []);
+
+    const promiseReady = axios.get('http://localhost:5000/orders/ready');
+    promiseReady.then(resp => {
+      setReady(resp.data);
+    });
+    promiseReady.catch(err => {
+      console.log(err.response.data.message);
+    });
+  }, [loading]);
 
   return (
     <>
@@ -28,14 +38,25 @@ export default function Kitchen() {
         <div className="w-full">
           <h1 className="text-lg font-bold">Preparando:</h1>
           <div className="">
-            {orders.map(item => (
-              <OrderProgress item={item} />
-            ))}
+            {orders.length > 0 ? (
+              orders.map(item => (
+                <OrderProgress item={item} setLoading={setLoading} />
+              ))
+            ) : (
+              <p className="mt-9">Não tem pedido sendo preparado</p>
+            )}
           </div>
         </div>
         <div className="divider" />
         <div className="w-full">
-          <h1 className="text-lg font-bold ml-3">Pronto:</h1>
+          <h1 className="text-lg font-bold ml-5">Pronto:</h1>
+          <div className="ml-5">
+            {ready.length > 0 ? (
+              ready.map(item => <OrderReady item={item} />)
+            ) : (
+              <p className="mt-9">Não tem pedido pronto</p>
+            )}
+          </div>
         </div>
       </main>
     </>

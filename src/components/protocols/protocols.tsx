@@ -7,6 +7,7 @@ export interface Product {
 export interface OrderProgress {
   id: number;
   nameCustomer: string;
+  finishId: number;
   infos: [
     {
       product: {

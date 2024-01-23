@@ -3,33 +3,22 @@
 import React from 'react';
 import Image from 'next/image';
 import { IoMdClose } from 'react-icons/io';
-import { IoMdCheckmark } from 'react-icons/io';
 import Swal from 'sweetalert2';
-import axios from 'axios';
 
 import { OrderProgress } from '../protocols/protocols';
 
 interface ProductOrderProps {
   item: OrderProgress;
-  setLoading: (value: []) => void;
 }
 
 function close() {
   Swal.fire('Função disponível em breve!');
 }
 
-export default function OrderProgress({ item, setLoading }: ProductOrderProps) {
-  function check(id: number) {
-    const obj = {
-      id,
-    };
-    axios.put('http://localhost:5000/orders-update-ready', obj);
-    setLoading([]);
-  }
-
+export default function OrderReady({ item }: ProductOrderProps) {
   return (
-    <main className="flex justify-around items-center shadow-md mb-3 w-80 rounded-md">
-      <div className="m-3 shadow-lg border rounded-md">
+    <main className="flex justify-around items-center border border-green-500 shadow-md mb-3 w-80 rounded-md">
+      <div className="m-3 shadow-lg rounded-md">
         <Image
           src={item?.infos[0]?.product?.image}
           alt="logo"
@@ -48,9 +37,6 @@ export default function OrderProgress({ item, setLoading }: ProductOrderProps) {
       <div>
         <div className="bg-red-200 text-red-700 mb-2 rounded-sm w-5 h-5 flex justify-center items-center">
           <IoMdClose onClick={() => close()} />
-        </div>
-        <div className="bg-green-200 text-lime-600 rounded-sm w-5 h-5 flex justify-center items-center">
-          <IoMdCheckmark onClick={() => check(item.finishId)} />
         </div>
       </div>
     </main>
