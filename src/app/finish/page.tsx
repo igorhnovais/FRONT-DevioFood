@@ -12,7 +12,6 @@ import axios from 'axios';
 
 import Header from '@/components/header/header';
 import ResumeOrder from '@/components/resumeOrder/resumeOrder';
-import PrintButton from '@/components/printButton/printButton';
 
 export default function Finish() {
   const [orders, setOrders] = useState([]);
@@ -149,7 +148,6 @@ export default function Finish() {
             </div>
           </div>
         </section>
-        <PrintButton />
         <section className="flex justify-end mt-8">
           <button
             type="button"
