@@ -13,7 +13,7 @@ export default function Kitchen() {
   const [loading, setLoading] = useState([]);
 
   useEffect(() => {
-    const promisePreparing = axios.get('http://localhost:5000/orders/finish');
+    const promisePreparing = axios.get('http://localhost:5000/orders-finish');
     // const promise = axios.get(`${process.env.REACT_APP_API_BASE_URL}/products`);
     promisePreparing.then(resp => {
       setOrders(resp.data);
@@ -22,7 +22,7 @@ export default function Kitchen() {
       console.log(err.response.data.message);
     });
 
-    const promiseReady = axios.get('http://localhost:5000/orders/ready');
+    const promiseReady = axios.get('http://localhost:5000/orders-ready');
     promiseReady.then(resp => {
       setReady(resp.data);
     });

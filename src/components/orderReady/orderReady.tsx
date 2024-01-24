@@ -35,7 +35,7 @@ export default function OrderReady({ item }: ProductOrderProps) {
         </p>
       </div>
       <div>
-        <div className="bg-red-200 text-red-700 mb-2 rounded-sm w-5 h-5 flex justify-center items-center">
+        <div className="bg-red-200 text-red-700 mb-2 rounded-sm w-5 h-5 flex justify-center items-center hover:cursor-pointer">
           <IoMdClose onClick={() => close()} />
         </div>
       </div>

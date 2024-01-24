@@ -12,12 +12,18 @@ interface AditionalProps {
 
 export default function Aditional({ item }: AditionalProps) {
   const [color, setColor] = useState('');
+  const food = item.name;
+  const price = item.price.toString();
 
   const checkButton = () => {
     if (color === '') {
       setColor('bg-lime-600 rounded-lg');
+      localStorage.setItem(`${food}`, food);
+      localStorage.setItem(`${price}`, price);
     } else {
       setColor('');
+      localStorage.removeItem(`${food}`);
+      localStorage.removeItem(`${price}`);
     }
   };
 

@@ -1,4 +1,5 @@
 export interface Product {
+  id: number;
   image: string;
   name: string;
   price: number;
@@ -34,6 +35,16 @@ export interface Aditional {
   name: string;
   g: number;
   price: number;
+}
+
+export interface ResumeOrder {
+  total: number;
+  observation: string;
+  drop: false;
+  description: string;
+  aditional: string;
+  quantity: number;
+  transshipment: number;
 }
 
 export const aditionals = [

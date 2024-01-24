@@ -6,15 +6,19 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { DebounceInput } from 'react-debounce-input';
 import { IoMdCloseCircle } from 'react-icons/io';
+import Link from 'next/link';
 
 import Header from '@/components/header/header';
 import ProductImage from '@/components/productImage/productImage';
 import SearchDiv from '@/components/searchDiv/searchDiv';
+import ResumeOrder from '@/components/resumeOrder/resumeOrder';
 
 export default function Home() {
   const [products, setProducts] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [quest, setQuest] = useState([]);
   const [text, setText] = useState('');
+  const [loading, setLoading] = useState([]);
 
   useEffect(() => {
     const promise = axios.get('http://localhost:5000/products');
@@ -23,13 +27,24 @@ export default function Home() {
     promise.catch(err => {
       console.log(err.response.data.message);
     });
-  }, []);
+
+    const name = localStorage.getItem('name');
+
+    if (name) {
+      const promiseOrder = axios.get(`http://localhost:5000/orders/${name}`);
+      promiseOrder.then(resp => {
+        setOrders(resp.data);
+        console.log('orders', resp.data);
+      });
+      promiseOrder.catch(err => {
+        console.log(err.response.data.message);
+      });
+    }
+  }, [loading]);
 
   const HandleChange = (value: string) => {
     if (value.length >= 1) {
-      const promise = axios.post('http://localhost:5000/products/filter', {
-        search: value,
-      });
+      const promise = axios.post(`http://localhost:5000/products/${value}`);
       promise.then(resp => setQuest(resp.data));
     } else {
       setQuest([]);
@@ -81,34 +96,58 @@ export default function Home() {
           <h1 className="text-sm font-bold">Categorias</h1>
           <p className="text-xs mb-2">Navegue por categoria</p>
           <div className="flex styleImage">
-            <Image
-              src="/assets/combo.png"
-              alt="logo"
-              width={230}
-              height={100}
-              onClick={() => category()}
-            />
-            <Image
-              src="/assets/acompanhamento.png"
-              alt="logo"
-              width={230}
-              height={100}
-              onClick={() => category()}
-            />
-            <Image
-              src="/assets/refrigerante.png"
-              alt="logo"
-              width={230}
-              height={100}
-              onClick={() => category()}
-            />
-            <Image
-              src="/assets/sobremesa.png"
-              alt="logo"
-              width={230}
-              height={100}
-              onClick={() => category()}
-            />
+            <div className="relative mr-2">
+              <Image
+                src="/assets/combo.png"
+                alt="logo"
+                width={200}
+                height={80}
+                onClick={() => category()}
+                className="mb-2 shadow-xl border rounded-lg"
+              />
+              <h2 className="absolute top-10 left-0 right-0 text-center text-shadow">
+                Combos
+              </h2>
+            </div>
+            <div className="relative mr-2">
+              <Image
+                src="/assets/acompanhamento.png"
+                alt="logo"
+                width={200}
+                height={80}
+                onClick={() => category()}
+                className="mb-2 shadow-xl border rounded-lg"
+              />
+              <h2 className="absolute top-10 left-0 right-0 text-center text-shadow">
+                Acompanhamentos
+              </h2>
+            </div>
+            <div className="relative mr-2">
+              <Image
+                src="/assets/refrigerante.png"
+                alt="logo"
+                width={200}
+                height={80}
+                onClick={() => category()}
+                className="mb-2 shadow-xl border rounded-lg"
+              />
+              <h2 className="absolute top-10 left-0 right-0 text-center text-shadow">
+                Refrigerante
+              </h2>
+            </div>
+            <div className="relative">
+              <Image
+                src="/assets/sobremesa.png"
+                alt="logo"
+                width={200}
+                height={80}
+                onClick={() => category()}
+                className="mb-2 shadow-xl border rounded-lg"
+              />
+              <h2 className="absolute top-10 left-0 right-0 text-center text-shadow">
+                Sobremesa
+              </h2>
+            </div>
           </div>
         </section>
         <section className="mb-9">
@@ -118,14 +157,33 @@ export default function Home() {
           </p>
           <div className="flex">
             {products.map(item => (
-              <ProductImage item={item} />
+              <ProductImage item={item} setLoading={setLoading} />
             ))}
           </div>
         </section>
+        {orders.length > 0 ? (
+          <section className="border border-slate-400 p-10 mb-5">
+            {orders[0]?.infos.map(item => <ResumeOrder item={item} />)}
+            <div className="p-4 border-t-2 border-dashed text-sm">
+              <h2>Total do pedido:</h2>
+              <h1 className="text-xl font-bold">
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }).format(orders[0].balance / 100)}
+              </h1>
+            </div>
+          </section>
+        ) : (
+          <p>.</p>
+        )}
         <section className="flex justify-end">
           <button
             type="button"
             className="ml-9 w-56 h-8 rounded-xl border border-slate-400 text-slate-400"
+            onClick={() => category()}
           >
             Cancelar
           </button>
@@ -133,7 +191,7 @@ export default function Home() {
             type="button"
             className="ml-9 bg-slate-400 text-white w-56 h-8 rounded-xl"
           >
-            Finalizar pedido
+            <Link href="/finish">Finalizar pedido</Link>
           </button>
         </section>
       </main>
