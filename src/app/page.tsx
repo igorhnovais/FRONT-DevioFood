@@ -36,7 +36,6 @@ export default function Home() {
       );
       promiseOrder.then(resp => {
         setOrders(resp.data);
-        console.log('orders', resp.data);
       });
       promiseOrder.catch(err => {
         console.log(err.response.data.message);

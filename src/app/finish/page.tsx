@@ -32,7 +32,6 @@ export default function Finish() {
       );
       promiseOrder.then(resp => {
         setOrders(resp.data);
-        console.log('oii', resp.data);
       });
       promiseOrder.catch(err => {
         console.log(err.response.data.message);
