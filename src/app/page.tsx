@@ -1,43 +1,44 @@
-"use client";
+'use client';
 
-import axios from "axios";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { DebounceInput } from "react-debounce-input";
-import { IoMdCloseCircle } from "react-icons/io";
-import Swal from "sweetalert2";
+import axios from 'axios';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+import { useEffect, useState } from 'react';
+import { DebounceInput } from 'react-debounce-input';
+import { IoMdCloseCircle } from 'react-icons/io';
+import Swal from 'sweetalert2';
 
-import Header from "@/components/header/header";
-import ProductImage from "@/components/productImage/productImage";
-import { OrderFinish } from "@/components/protocols/protocols";
-import ResumeOrders from "@/components/resumeOrder/resumeOrder";
-import SearchDiv from "@/components/searchDiv/searchDiv";
+import Header from '@/components/header/header';
+import ProductImage from '@/components/productImage/productImage';
+import { OrderFinish } from '@/components/protocols/protocols';
+import ResumeOrders from '@/components/resumeOrder/resumeOrder';
+import SearchDiv from '@/components/searchDiv/searchDiv';
 
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([] as OrderFinish[]);
   const [quest, setQuest] = useState([]);
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const [loading, setLoading] = useState([]);
 
   useEffect(() => {
     const promise = axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products`);
-    promise.then((resp) => setProducts(resp.data));
-    promise.catch((err) => {
+    promise.then(resp => setProducts(resp.data));
+    promise.catch(err => {
       console.log(err.response.data.message);
     });
 
-    const name = window.localStorage.getItem("name");
+    const name = window.localStorage.getItem('name');
 
     if (name) {
       const promiseOrder = axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/orders/${name}`
+        `${process.env.NEXT_PUBLIC_API_URL}/orders/${name}`,
       );
-      promiseOrder.then((resp) => {
+      promiseOrder.then(resp => {
         setOrders(resp.data);
       });
-      promiseOrder.catch((err) => {
+      promiseOrder.catch(err => {
         console.log(err.response.data.message);
       });
     }
@@ -46,19 +47,19 @@ export default function Home() {
   const HandleChange = (value: string) => {
     if (value.length >= 1) {
       const promise = axios.post(`${process.env.NEXT_PUBLIC_API_URL}/${value}`);
-      promise.then((resp) => setQuest(resp.data));
+      promise.then(resp => setQuest(resp.data));
     } else {
       setQuest([]);
     }
   };
 
   function category() {
-    Swal.fire("Função disponível em breve!");
+    Swal.fire('Função disponível em breve!');
   }
 
   function closeSearch() {
     setQuest([]);
-    setText("");
+    setText('');
   }
 
   return (
@@ -72,19 +73,19 @@ export default function Home() {
             minLength={1}
             debounceTimeout={400}
             placeholder="O que você procura?"
-            onChange={(event) => HandleChange(event.target.value)}
+            onChange={event => HandleChange(event.target.value)}
             style={{
-              backgroundColor: "#f0f0f0",
-              padding: "8px",
-              borderRadius: "4px",
+              backgroundColor: '#f0f0f0',
+              padding: '8px',
+              borderRadius: '4px',
             }}
           />
           <div
             className="flex"
-            style={{ display: quest.length === 0 ? "none" : "flex" }}
+            style={{ display: quest.length === 0 ? 'none' : 'flex' }}
           >
             <div className="searchDiv">
-              {quest.map((item) => (
+              {quest.map(item => (
                 <SearchDiv item={item} />
               ))}
             </div>
@@ -157,20 +158,20 @@ export default function Home() {
             Selecione um produto para adicionar ao seu pedido
           </p>
           <div className="flex">
-            {products.map((item) => (
+            {products.map(item => (
               <ProductImage item={item} setLoading={setLoading} />
             ))}
           </div>
         </section>
         {orders.length > 0 ? (
           <section className="border border-slate-400 p-10 mb-5">
-            {orders[0]?.infos.map((item) => <ResumeOrders item={item} />)}
+            {orders[0]?.infos.map(item => <ResumeOrders item={item} />)}
             <div className="p-4 border-t-2 border-dashed text-sm">
               <h2>Total do pedido:</h2>
               <h1 className="text-xl font-bold">
-                {new Intl.NumberFormat("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 }).format(orders[0].balance / 100)}
