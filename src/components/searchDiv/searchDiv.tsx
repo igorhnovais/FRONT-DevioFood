@@ -16,7 +16,8 @@ export default function SearchDiv({ item }: ProductImageProps) {
         <Image src={item.image} alt="logo" width={230} height={120} />
         <h4 className="text-sm font-bold">{item.name}</h4>
         <p className="text-xs">hamburguer gostoso</p>
-        <h2 className="text-lg font-bold">{new Intl.NumberFormat('pt-BR', {
+        <h2 className="text-lg font-bold">
+          {new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL',
             minimumFractionDigits: 2,

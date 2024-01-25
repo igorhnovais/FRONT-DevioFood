@@ -11,11 +11,12 @@ import Link from 'next/link';
 import Header from '@/components/header/header';
 import ProductImage from '@/components/productImage/productImage';
 import SearchDiv from '@/components/searchDiv/searchDiv';
-import ResumeOrder from '@/components/resumeOrder/resumeOrder';
+import ResumeOrders from '@/components/resumeOrder/resumeOrder';
+import { OrderFinish } from '@/components/protocols/protocols';
 
 export default function Home() {
   const [products, setProducts] = useState([]);
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState([] as OrderFinish[]);
   const [quest, setQuest] = useState([]);
   const [text, setText] = useState('');
   const [loading, setLoading] = useState([]);
@@ -164,7 +165,7 @@ export default function Home() {
         </section>
         {orders.length > 0 ? (
           <section className="border border-slate-400 p-10 mb-5">
-            {orders[0]?.infos.map(item => <ResumeOrder item={item} />)}
+            {orders[0]?.infos.map(item => <ResumeOrders item={item} />)}
             <div className="p-4 border-t-2 border-dashed text-sm">
               <h2>Total do pedido:</h2>
               <h1 className="text-xl font-bold">

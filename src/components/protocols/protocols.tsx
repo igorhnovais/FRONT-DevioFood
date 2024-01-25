@@ -40,11 +40,27 @@ export interface Aditional {
 export interface ResumeOrder {
   total: number;
   observation: string;
-  drop: false;
+  drop?: boolean;
   description: string;
   aditional: string;
   quantity: number;
   transshipment: number;
+}
+
+export interface OrderFinish {
+  nameCustomer: string;
+  balance: number;
+  infos: [
+    {
+      total: number;
+      observation: string;
+      drop?: boolean;
+      description: string;
+      aditional: string;
+      quantity: number;
+      transshipment: number;
+    },
+  ];
 }
 
 export const aditionals = [

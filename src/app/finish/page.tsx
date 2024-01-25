@@ -11,12 +11,18 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 
 import Header from '@/components/header/header';
-import ResumeOrder from '@/components/resumeOrder/resumeOrder';
+import ResumeOrders from '@/components/resumeOrder/resumeOrder';
+import { OrderFinish } from '@/components/protocols/protocols';
+
+interface Order {
+  balance?: number;
+}
 
 export default function Finish() {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState([] as OrderFinish[]);
   const [value, setValue] = useState('');
-  const transshipment = Number(value) - (orders[0]?.balance || 0);
+  const transshipment = Number(value) - ((orders[0] as Order)?.balance || 0);
+
   const name = localStorage.getItem('name');
 
   useEffect(() => {
@@ -26,6 +32,7 @@ export default function Finish() {
       );
       promiseOrder.then(resp => {
         setOrders(resp.data);
+        console.log('oii', resp.data);
       });
       promiseOrder.catch(err => {
         console.log(err.response.data.message);
@@ -63,7 +70,7 @@ export default function Finish() {
           <div>
             <h3 className="text-xs font-bold mb-3">Resumo da compra</h3>
             <section className="border border-slate-400 p-10 mb-5 w-full">
-              {orders[0]?.infos.map(item => <ResumeOrder item={item} />)}
+              {orders[0]?.infos.map(item => <ResumeOrders item={item} />)}
               <div className="flex justify-between items-center p-4 border-t-2 border-dashed text-sm">
                 <h2 className="mr-5">Total do pedido:</h2>
                 <h1 className="text-xl font-bold">
@@ -72,7 +79,7 @@ export default function Finish() {
                     currency: 'BRL',
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
-                  }).format(orders[0]?.balance / 100)}
+                  }).format(Number(orders[0]?.balance) / 100)}
                 </h1>
               </div>
             </section>
@@ -89,7 +96,7 @@ export default function Finish() {
             </h3>
             <button
               type="button"
-              className="flex justify-between items-center border border-slate-400 p-4 mb-5 w-80" 
+              className="flex justify-between items-center border border-slate-400 p-4 mb-5 w-80"
               onClick={() => payment()}
             >
               <div className="flex items-center">
@@ -102,7 +109,7 @@ export default function Finish() {
             </button>
             <button
               type="button"
-              className="flex justify-between items-center border border-slate-400 p-4 mb-5 w-80" 
+              className="flex justify-between items-center border border-slate-400 p-4 mb-5 w-80"
               onClick={() => payment()}
             >
               <div className="flex items-center">
