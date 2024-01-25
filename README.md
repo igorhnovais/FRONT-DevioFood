@@ -1,5 +1,3 @@
-devio-food-2s7mwry4d-igorhnovais.vercel.app
-
 # Devio Food
 
 <details open="open">
@@ -24,6 +22,9 @@ devio-food-2s7mwry4d-igorhnovais.vercel.app
 
 ### Idealização do projeto
 - Esse projeto foi pensado para ser sistema interno integrado com os clientes, onde o usuario poderá escolher seu pedido, e após pagamento o pedido ira para a cozinha e quando finalizado aparecerá no painel para retirada.
+
+### link do deploy
+- https://devio-food-2s7mwry4d-igorhnovais.vercel.app
 
 ### link do Back-end desse projeto
 - https://github.com/igorhnovais/API-DevioFood
