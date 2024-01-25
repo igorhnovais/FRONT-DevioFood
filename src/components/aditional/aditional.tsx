@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
 import Image from 'next/image';
+import React from 'react';
+import { useState } from 'react';
 import { MdRadioButtonUnchecked } from 'react-icons/md';
 
 import { Aditional } from '../protocols/protocols';
@@ -18,12 +19,12 @@ export default function Aditional({ item }: AditionalProps) {
   const checkButton = () => {
     if (color === '') {
       setColor('bg-lime-600 rounded-lg');
-      localStorage.setItem(`${food}`, food);
-      localStorage.setItem(`${price}`, price);
+      window.localStorage.setItem(`${food}`, food);
+      window.localStorage.setItem(`${price}`, price);
     } else {
       setColor('');
-      localStorage.removeItem(`${food}`);
-      localStorage.removeItem(`${price}`);
+      window.localStorage.removeItem(`${food}`);
+      window.localStorage.removeItem(`${price}`);
     }
   };
 

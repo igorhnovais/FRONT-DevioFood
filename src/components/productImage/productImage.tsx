@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
-import Image from 'next/image';
-import { IoMdClose } from 'react-icons/io';
 import axios from 'axios';
+import React from 'react';
+import Image from 'next/image';
+import { useState } from 'react';
+import { IoMdClose } from 'react-icons/io';
 
-import { Product, aditionals } from '../protocols/protocols';
 import Aditional from '../aditional/aditional';
+import { Product, aditionals } from '../protocols/protocols';
 
 interface ProductImageProps {
   item: Product;
@@ -27,18 +28,18 @@ export default function ProductImage({ item, setLoading }: ProductImageProps) {
   };
 
   function makeOrder() {
-    let name = localStorage.getItem('name');
-    const bacon = localStorage.getItem('bacon');
-    const baconPrice = Number(localStorage.getItem('100')) || 0;
-    const cheddar = localStorage.getItem('cheddar');
-    const cheddarPrice = Number(localStorage.getItem('200')) || 0;
-    const molho = localStorage.getItem('molho');
-    const molhoPrice = Number(localStorage.getItem('150')) || 0;
+    let name = window.localStorage.getItem('name');
+    const bacon = window.localStorage.getItem('bacon');
+    const baconPrice = Number(window.localStorage.getItem('100')) || 0;
+    const cheddar = window.localStorage.getItem('cheddar');
+    const cheddarPrice = Number(window.localStorage.getItem('200')) || 0;
+    const molho = window.localStorage.getItem('molho');
+    const molhoPrice = Number(window.localStorage.getItem('150')) || 0;
 
     while (!name) {
       name = prompt('Qual é o seu nome?');
       if (name) {
-        localStorage.setItem('name', name);
+        window.localStorage.setItem('name', name);
       }
     }
 
@@ -60,9 +61,9 @@ export default function ProductImage({ item, setLoading }: ProductImageProps) {
     );
     promise.then(() => {
       setLoading([]);
-      localStorage.removeItem('bacon');
-      localStorage.removeItem('cheddar');
-      localStorage.removeItem('molho');
+      window.localStorage.removeItem('bacon');
+      window.localStorage.removeItem('cheddar');
+      window.localStorage.removeItem('molho');
       window.location.reload();
     });
     promise.catch(err => {

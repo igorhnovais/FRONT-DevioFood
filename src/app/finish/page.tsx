@@ -1,18 +1,19 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import { IoWallet } from 'react-icons/io5';
-import { IoIosCard } from 'react-icons/io';
-import { MdRadioButtonUnchecked } from 'react-icons/md';
-import { FaMoneyBillAlt } from 'react-icons/fa';
-import Swal from 'sweetalert2';
 import axios from 'axios';
+import Link from 'next/link';
+import React from 'react';
+import { redirect } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { FaMoneyBillAlt } from 'react-icons/fa';
+import { IoIosCard } from 'react-icons/io';
+import { IoWallet } from 'react-icons/io5';
+import { MdRadioButtonUnchecked } from 'react-icons/md';
+import Swal from 'sweetalert2';
 
 import Header from '@/components/header/header';
-import ResumeOrders from '@/components/resumeOrder/resumeOrder';
 import { OrderFinish } from '@/components/protocols/protocols';
+import ResumeOrders from '@/components/resumeOrder/resumeOrder';
 
 interface Order {
   balance?: number;
@@ -20,12 +21,12 @@ interface Order {
 
 export default function Finish() {
   const [orders, setOrders] = useState([] as OrderFinish[]);
+  const [name, setName] = useState('');
   const [value, setValue] = useState('');
   const transshipment = Number(value) - ((orders[0] as Order)?.balance || 0);
 
-  const name = localStorage.getItem('name');
-
   useEffect(() => {
+    setName(window.localStorage.getItem('name') || '');
     if (name) {
       const promiseOrder = axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/orders/${name}`,
@@ -48,7 +49,7 @@ export default function Finish() {
       `${process.env.NEXT_PUBLIC_API_URL}/orders/finish/${name}`,
     );
     promise.then(() => {
-      localStorage.clear();
+      window.localStorage.clear();
       Swal.fire('Pedido adicionado com sucesso!');
       redirect('/');
     });
