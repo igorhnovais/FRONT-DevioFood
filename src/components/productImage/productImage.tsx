@@ -54,7 +54,10 @@ export default function ProductImage({ item, setLoading }: ProductImageProps) {
       quantity: Number(select),
     };
 
-    const promise = axios.post('http://localhost:5000/orders', obj);
+    const promise = axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/orders`,
+      obj,
+    );
     promise.then(() => {
       setLoading([]);
       localStorage.removeItem('bacon');

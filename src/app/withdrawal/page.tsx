@@ -14,8 +14,9 @@ export default function Withdrawal() {
   const [ready, setReady] = useState<OrderProgress[]>([]);
 
   useEffect(() => {
-    const promisePreparing = axios.get('http://localhost:5000/orders-finish');
-    // const promise = axios.get(`${process.env.REACT_APP_API_BASE_URL}/products`);
+    const promisePreparing = axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}_BASE_URL}/products`,
+    );
     promisePreparing.then(resp => {
       setOrders(resp.data);
     });
@@ -23,7 +24,9 @@ export default function Withdrawal() {
       console.log(err.response.data.message);
     });
 
-    const promiseReady = axios.get('http://localhost:5000/orders-ready');
+    const promiseReady = axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/orders-ready`,
+    );
     promiseReady.then(resp => {
       setReady(resp.data);
     });

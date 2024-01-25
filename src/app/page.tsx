@@ -21,8 +21,7 @@ export default function Home() {
   const [loading, setLoading] = useState([]);
 
   useEffect(() => {
-    const promise = axios.get('http://localhost:5000/products');
-    // const promise = axios.get(`${process.env.REACT_APP_API_BASE_URL}/products`);
+    const promise = axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products`);
     promise.then(resp => setProducts(resp.data));
     promise.catch(err => {
       console.log(err.response.data.message);
@@ -31,7 +30,9 @@ export default function Home() {
     const name = localStorage.getItem('name');
 
     if (name) {
-      const promiseOrder = axios.get(`http://localhost:5000/orders/${name}`);
+      const promiseOrder = axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/orders/${name}`,
+      );
       promiseOrder.then(resp => {
         setOrders(resp.data);
         console.log('orders', resp.data);
@@ -44,7 +45,7 @@ export default function Home() {
 
   const HandleChange = (value: string) => {
     if (value.length >= 1) {
-      const promise = axios.post(`http://localhost:5000/products/${value}`);
+      const promise = axios.post(`${process.env.NEXT_PUBLIC_API_URL}/${value}`);
       promise.then(resp => setQuest(resp.data));
     } else {
       setQuest([]);

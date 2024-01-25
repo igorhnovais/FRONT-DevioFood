@@ -23,7 +23,7 @@ export default function OrderProgress({ item, setLoading }: ProductOrderProps) {
     const obj = {
       id,
     };
-    axios.put('http://localhost:5000/orders-update-ready', obj);
+    axios.put(`${process.env.NEXT_PUBLIC_API_URL}/orders-update-ready`, obj);
     setLoading([]);
   }
 

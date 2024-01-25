@@ -21,7 +21,9 @@ export default function Finish() {
 
   useEffect(() => {
     if (name) {
-      const promiseOrder = axios.get(`http://localhost:5000/orders/${name}`);
+      const promiseOrder = axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/orders/${name}`,
+      );
       promiseOrder.then(resp => {
         setOrders(resp.data);
       });
@@ -36,9 +38,12 @@ export default function Finish() {
   }
 
   function finishOrder() {
-    const promise = axios.post(`http://localhost:5000/orders/finish/${name}`);
+    const promise = axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/orders/finish/${name}`,
+    );
     promise.then(() => {
       localStorage.clear();
+      Swal.fire('Pedido adicionado com sucesso!');
       redirect('/');
     });
     promise.catch(err => {
